@@ -1,0 +1,56 @@
+# This pipeline is triggered on pushes to the main branch.
+trigger:
+  - main
+
+# The pipeline will run on a Microsoft-hosted agent using the latest Ubuntu image.
+pool:
+  vmImage: "ubuntu-latest"
+
+# The pipeline is divided into stages.
+stages:
+  - stage: Build_and_Test
+    displayName: "Build & Test Stage"
+    jobs:
+      - job: Build
+        displayName: "Build and Test"
+        steps:
+          # Step 1: Set up the specific Python version.
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: "3.9"
+            displayName: "Use Python 3.9"
+
+          # Step 2: Install project dependencies from requirements.txt.
+          - script: |
+              python -m venv venv
+              source venv/bin/activate
+              pip install -r requirements.txt
+            displayName: "Install dependencies"
+
+          # Step 3: Run the unit tests using pytest.
+          - script: |
+              source venv/bin/activate
+              pytest
+            displayName: "Run unit tests"
+
+  - stage: Deploy
+    displayName: "Deploy Stage"
+    # This stage depends on the successful completion of the Build_and_Test stage.
+    dependsOn: Build_and_Test
+    jobs:
+      - job: Deploy
+        displayName: "Deploy to Azure App Service"
+        steps:
+          # Step 4: The deployment task. This is the most important part.
+          - task: AzureWebApp@1
+            displayName: "Deploy Flask App"
+            inputs:
+              # IMPORTANT: This is the name of the Service Connection you will create in Azure DevOps.
+              azureSubscription: "<Your-Azure-Service-Connection-Name>"
+
+              # IMPORTANT: This is the globally unique name of the App Service you will create in Azure.
+              appName: "<Your-App-Service-Name>"
+
+              package: "$(System.DefaultWorkingDirectory)"
+              # Instructs Azure to use Python 3.9 for this deployment.
+              runtimeStack: "PYTHON|3.9"
