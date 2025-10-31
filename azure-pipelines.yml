@@ -46,11 +46,11 @@ stages:
             displayName: "Deploy Flask App"
             inputs:
               # IMPORTANT: This is the name of the Service Connection you will create in Azure DevOps.
-              azureSubscription: "<Your-Azure-Service-Connection-Name>"
+              azureSubscription: "AzureWorkshopConnection"
 
               # IMPORTANT: This is the globally unique name of the App Service you will create in Azure.
-              appName: "<Your-App-Service-Name>"
+              appName: "parv141206-cicd-app-2025"
 
               package: "$(System.DefaultWorkingDirectory)"
               # Instructs Azure to use Python 3.9 for this deployment.
-              runtimeStack: "PYTHON|3.9"
+              runtimeStack: "PYTHON|3.13"
