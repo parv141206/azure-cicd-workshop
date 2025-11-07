@@ -77,6 +77,32 @@ Check the **"Actions"** tab on GitHub to watch your deployment pipeline run. Onc
 
 ## 🏆 Level Up: Try the Other Examples!
 
-You've mastered the basics! Now, try deploying the `gtu-grade-predictor` app from the `examples` folder. The process is the same. Experimenting (and even breaking things) is the best way to learn.
+You've mastered the basics! Now, try deploying the [gtu-grade-predictor](https://gtu-grade-predictor-ekfxfndwc7ghgkhp.centralindia-01.azurewebsites.net/) app from the `examples` folder. The process is the same.
 
+### Example 1: GTU Grade Predictor (Node.js)
+
+This is a simple server-side rendered application using Node.js and Express.
+
+- **Create a new Web App** in Azure.
+- **Runtime Stack**: **Node 20 LTS**
+- **Startup Command**: In the Configuration page, set the command to `npm start`. This tells Azure to use the `start` script from the `package.json` file.
+- **Set up the Deployment Center** just like you did for the Python app. Azure will correctly detect the Node.js project.
+- **Remember to `npm install`** locally before you start making any changes.
+
+### Example 2: The Shady URL Shortener (Node.js with a Database!) (Also live [here](https://shady-url-shortener-bmcceaa8aaf5gyg3.centralindia-01.azurewebsites.net/))
+
+This is a full backend application that uses a file-based SQLite database to store data. It demonstrates how Azure's persistent file storage works.
+
+- **Create a new Web App** in Azure.
+- **Runtime Stack**: **Node 24 LTS** (or the latest version available).
+- **Startup Command**: `npm start`
+- **Important `gitignore` step**: Before you deploy, make sure you have a `.gitignore` file inside the `shady-url-shortener` directory that contains:
+  ```
+  node_modules
+  urls.db
+  ```
+  This is crucial! We want the server to build the `node_modules` folder and create a fresh database file in the cloud. We do not want to commit our local ones.
+- **Deploy via the Deployment Center**. When the app runs, the `urls.db` file will be created on Azure's persistent storage, meaning your shortened links won't disappear when the app restarts!
+
+Experimenting (and even breaking things) is the best way to learn.
 Good luck, have fun, and welcome to the cloud! ☁️
