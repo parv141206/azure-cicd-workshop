@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GTU Grade Predictor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="font-sans bg-black text-zinc-300 antialiased bg-[radial-gradient(circle_at_1px_1px,_#2a2a2a_1px,_transparent_0)] bg-[length:2rem_2rem]"
+  >
+    <div
+      class="min-h-screen flex flex-col items-center justify-center p-4 py-10"
+    >
+      <div class="text-center mb-8">
+        <h1
+          class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-zinc-200 to-zinc-400"
+        >
+          GTU Grade Predictor
+        </h1>
+        <p class="text-zinc-500 mt-2 text-lg">
+          Enter your mid-semester and estimated end-semester marks to predict
+          your GTU grade and SPI.
+        </p>
+      </div>
+
+      <div
+        class="w-full max-w-4xl bg-black/50 backdrop-blur-xl border border-zinc-800 shadow-2xl rounded-2xl overflow-hidden"
+      >
+        <div
+          class="bg-zinc-900/80 px-6 py-3 border-b border-zinc-800 flex items-center"
+        >
+          <div class="flex space-x-2 mr-4">
+            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+          </div>
+          <h2 class="text-base font-semibold text-zinc-300">
+            Enter Your Marks
+          </h2>
+        </div>
+
+        <div class="p-6 md:p-8">
+          <form method="POST" action="/#results">
+            <div class="grid md:grid-cols-2 gap-6">
+              <div class="space-y-2">
+                <label for="midSemMarks" class="font-medium text-zinc-400"
+                  >Mid-Semester Marks (out of 30)</label
+                >
+                <input
+                  type="number"
+                  id="midSemMarks"
+                  name="midSemMarks"
+                  value="<%= typeof midSemMarks !== 'undefined' ? midSemMarks : '' %>"
+                  placeholder="Enter marks (0-30)"
+                  min="0"
+                  max="30"
+                  required
+                  class="w-full p-3 border border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-zinc-900 text-zinc-100 placeholder-zinc-600 transition-all duration-300"
+                />
+              </div>
+
+              <div class="space-y-2">
+                <label for="endSemMarks" class="font-medium text-zinc-400"
+                  >End-Semester Theory Marks (out of 70)</label
+                >
+                <input
+                  type="number"
+                  id="endSemMarks"
+                  name="endSemMarks"
+                  value="<%= typeof endSemMarks !== 'undefined' ? endSemMarks : '' %>"
+                  placeholder="Enter marks (0-70)"
+                  min="0"
+                  max="70"
+                  required
+                  class="w-full p-3 border border-zinc-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-zinc-900 text-zinc-100 placeholder-zinc-600 transition-all duration-300"
+                />
+              </div>
+            </div>
+
+            <div class="mt-8 flex items-center space-x-4">
+              <button
+                type="submit"
+                class="px-6 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500/50 transition-all duration-300 transform hover:scale-105"
+              >
+                Predict Grade
+              </button>
+              <a
+                href="/"
+                class="px-6 py-2 bg-zinc-800 text-zinc-300 font-semibold rounded-lg hover:bg-zinc-700 transition-colors duration-300"
+              >
+                Reset
+              </a>
+            </div>
+          </form>
+
+          <% if (show_results) { %>
+          <div
+            id="results"
+            class="pt-8 mt-8 border-t-2 border-zinc-800 transition-opacity duration-700 ease-in-out"
+          >
+            <div
+              class="mb-6 p-4 rounded-lg bg-gradient-to-r from-purple-900/30 to-pink-900/30 border border-purple-700"
+            >
+              <p
+                class="text-center text-zinc-200 font-medium text-lg leading-relaxed"
+              >
+                <%= mockMessage %>
+              </p>
+            </div>
+
+            <h3 class="text-lg font-semibold text-zinc-200 mb-4">
+              Your Predicted Grade
+            </h3>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div
+                class="bg-blue-900/30 p-4 rounded-lg text-center border border-blue-800"
+              >
+                <p class="text-sm text-zinc-400">Total Marks</p>
+                <p class="text-2xl font-bold text-blue-400">
+                  <%= totalMarks %>/100
+                </p>
+              </div>
+              <div
+                class="bg-blue-900/30 p-4 rounded-lg text-center border border-blue-800"
+              >
+                <p class="text-sm text-zinc-400">Marks Range</p>
+                <p class="text-2xl font-bold text-blue-400">
+                  <%= predictedGrade %>
+                </p>
+              </div>
+              <div
+                class="bg-blue-900/30 p-4 rounded-lg text-center border border-blue-800"
+              >
+                <p class="text-sm text-zinc-400">Grade</p>
+                <p class="text-2xl font-bold text-blue-400">
+                  <%= predictedLetter %>
+                </p>
+              </div>
+              <div
+                class="bg-blue-900/30 p-4 rounded-lg text-center border border-blue-800"
+              >
+                <p class="text-sm text-zinc-400">Grade Points</p>
+                <p class="text-2xl font-bold text-blue-400">
+                  <%= predictedPoints %>
+                </p>
+              </div>
+            </div>
+          </div>
+          <% } %>
+        </div>
+      </div>
+
+      <div class="text-center mt-12 w-full max-w-4xl">
+        <h3 class="text-xl font-bold text-zinc-400 mb-4">
+          GTU Grading System Reference
+        </h3>
+        <div
+          class="overflow-x-auto bg-zinc-900/50 border border-zinc-800 rounded-lg shadow-lg"
+        >
+          <table class="min-w-full text-sm">
+            <thead>
+              <tr class="bg-gradient-to-r from-blue-700 to-blue-800 text-white">
+                <th class="px-6 py-3 text-left font-semibold">Marks Range</th>
+                <th class="px-6 py-3 text-left font-semibold">Grade</th>
+                <th class="px-6 py-3 text-left font-semibold">Grade Points</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-800">
+              <% const grades = [ {range: '85-100', grade: 'AA', points: 10},
+              {range: '75-84', grade: 'AB', points: 9}, {range: '65-74', grade:
+              'BB', points: 8}, {range: '55-64', grade: 'BC', points: 7},
+              {range: '45-54', grade: 'CC', points: 6}, {range: '40-44', grade:
+              'CD', points: 5}, {range: '35-39', grade: 'DD', points: 4},
+              {range: '<35', grade: 'FF', points: 0} ]; %> <%
+              grades.forEach(function(item) { %>
+              <tr class="hover:bg-zinc-800/50 transition-colors duration-200">
+                <td class="px-6 py-3 text-zinc-300"><%= item.range %></td>
+                <td class="px-6 py-3 text-zinc-300"><%= item.grade %></td>
+                <td class="px-6 py-3 text-zinc-300"><%= item.points %></td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
