@@ -1,8 +1,6 @@
-<div style="text-align:center; display: flex; justify-content: center">
-
-![alt text](/docs/intro.jpg)
-
-</div>
+<p align="center">
+  <img src="/docs/intro.jpg" alt="Azure CI/CD Workshop Banner" width="80%">
+</p>
 
 ### Mission Prerequisites
 
@@ -71,12 +69,9 @@ git push
 
 Check the **"Actions"** tab on GitHub to watch your deployment pipeline run. Once it's done, visit your app's URL to see your changes live!
 
-<div style="text-align:center;  display: flex; justify-content: center">
-    <div style="max-width: 500px;">
-    
-![alt text](/docs/deploy_ho_gaya.gif)
-    </div>
-</div>
+<p align="center">
+  <img src="/docs/deploy_ho_gaya.gif" alt="Azure CI/CD Workshop Banner" width="80%">
+</p>
 
 ---
 
