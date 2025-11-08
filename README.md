@@ -48,7 +48,7 @@ We need to tell Azure how to start our specific Flask app.
 - In the left menu, under "Settings," go to the **"Configuration"** page.
 - Under **General settings**, add the following **Startup Command**:
   ```bash
-  gunicorn --bind=0.0.0.0 --timeout 600 app:app
+  gunicorn -w 4 app:app
   ```
 - **Don't forget to hit Save!**
 
